@@ -12,22 +12,21 @@ class TicketController extends Controller
     /**
      * ටිකට්පත් ලැයිස්තුව පෙන්වීම (Index)
      */
-    public function index()
-    {
-        $user = Auth::user();
+  public function index()
+{
+    $user = auth()->user();
+    $tickets = \App\Models\Ticket::with('user')
+        ->when($user->role !== 'admin', function ($query) use ($user) {
+            return $query->where('user_id', $user->id);
+        })
+        ->latest()
+        ->get();
 
-        // Admin හට සියලුම ටිකට්පත් ද පෙන්වන අතර, User හට පෙන්වන්නේ තමාගේ ඒවා පමණි [cite: 13, 35]
-        $tickets = Ticket::with('user')
-            ->when($user->role !== 'admin', function ($query) use ($user) {
-                return $query->where('user_id', $user->id);
-            })
-            ->latest()
-            ->get();
-
-        return Inertia::render('Tickets/Index', [
-            'tickets' => $tickets
-        ]);
-    }
+    // මෙහි 'Dashboard' යනු resources/js/Pages/Dashboard.vue ගොනුවයි
+    return \Inertia\Inertia::render('Dashboard', [
+        'tickets' => $tickets
+    ]);
+}
 
     /**
      * අලුත් ටිකට්පතක් නිර්මාණය කිරීම (Store)
