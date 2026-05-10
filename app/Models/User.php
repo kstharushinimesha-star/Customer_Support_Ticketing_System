@@ -67,8 +67,17 @@ class User extends Authenticatable
         ];
     }
     // app/Models/User.php
+// app/Models/User.php
+
 public function tickets()
 {
-    return $this->hasMany(Ticket::class); // [cite: 25, 44]
+    // එක් පරිශීලකයෙකුට ටිකට්පත් කිහිපයක් තිබිය හැක
+    return $this->hasMany(Ticket::class);
+}
+
+public function comments()
+{
+    // එක් පරිශීලකයෙකුට කමෙන්ට් කිහිපයක් තිබිය හැක
+    return $this->hasMany(Comment::class);
 }
 }
