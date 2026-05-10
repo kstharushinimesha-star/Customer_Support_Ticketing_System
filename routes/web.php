@@ -4,7 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\CommentController;
-
+use App\Http\Controllers\TicketController;
 
 // Authenticated users සඳහා පමණක් ඇති රූට්ස්
 Route::middleware([
